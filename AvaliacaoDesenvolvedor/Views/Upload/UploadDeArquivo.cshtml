@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "UploadDeArquivo";
+}
+
+<h2>UploadDeArquivo</h2>
+
+@using (Html.BeginForm("UploadDeArquivo", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <div>
+        @Html.TextBox("file", "", new { type = "file" }) <br />
+
+        <input type="submit" value="Upload" />
+
+        @ViewBag.Message
+
+    </div>
+
+    <div>
+        @Html.ActionLink("ler arquivos", "LerArquivos")
+
+
+
+
+
+    </div>
+}  
