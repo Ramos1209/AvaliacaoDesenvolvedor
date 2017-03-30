@@ -7,6 +7,7 @@ using System.IO;
 
 using System.Collections;
 using AvaliacaoDesenvolvedor.Models;
+using AvaliacaoDesenvolvedor.EF;
 
 namespace AvaliacaoDesenvolvedor.Controllers
 {
@@ -33,27 +34,64 @@ namespace AvaliacaoDesenvolvedor.Controllers
                 {
                     string _FileName = Path.GetFileName(file.FileName);
                     string _path = Path.Combine(Server.MapPath("~/uploads"), _FileName);
+
                     file.SaveAs(_path);
+                    List<Pedido> lista = new List<Pedido>();
+                    DbContexto db = new DbContexto();
+                    string[] array = System.IO.File.ReadAllLines(_path);
+
+                    for (int i = 0; i < array.Length; i++)
+                    {
+                        if (i > 0)
+                        {
+
+                            Pedido p = new Pedido();
+
+                            string[] auxiliar = array[i].Replace("\t", "|").Split('|');
+
+                            p.Comprador = auxiliar[0];
+                            p.Descricao = auxiliar[1];
+                            p.PrecoUnitario = Convert.ToDecimal(auxiliar[2]);
+                            p.Quantidade = Convert.ToInt32(auxiliar[3]);
+                            p.Endereco = auxiliar[4];
+                            p.Fornecedor = auxiliar[5];
+                            p.Total = p.Quantidade * p.PrecoUnitario;
+                            //Adiciono o objeto a lista
+                            lista.Add(p);
+                            db.Pedido.Add(p);
+                            db.SaveChanges();
+                           
+                        }
+
+
+                    }
+                    return View("ListaDeUpload", lista);
+
+
                 }
-                ViewBag.Message = "Arquivo carregado com sucesso!!";
-                return View();
+                return null;
+
+
             }
-            catch
+            catch (Exception erro)
             {
                 ViewBag.Message = "File upload failed!!";
+
                 return View();
             }
         }
-        public ActionResult LerArquivos()
+        public ActionResult SalvaNoBanco()
         {
 
-            return View();
+
+
+            return View("ListasDeUploads");
+
         }
 
-       
 
 
-
-        
     }
-}
+        
+
+    }

@@ -1,0 +1,27 @@
+function SalvarUsuario() {
+
+    debugger;
+
+    var nome = $("#Nome").val();
+    var login = $("#Login").val();
+    var senha = $("#Senha").val();
+
+    var token = $('input[name="__RequestVerificationToken"]').val();
+
+    var tokenadr = $('form[action="/Adicionar/Usuario"]input[name="__RequestVerificationToken"]').val();
+    var headers = {};
+    var headersadr = {};
+
+    headers['__RequestVerificationToken'] = token;
+    headersadr['__RequestVerificationToken'] = token;
+
+
+    var url = "/Adicionar/Usuario"
+
+    $.ajax({
+        url: url
+        , type: "POST"
+        , headers: headersadr
+        , datatype: "JSON"
+        , data:{nome:Nome,login:Login,senha:Senha,__RequestVerificationToken:token}
+    })
