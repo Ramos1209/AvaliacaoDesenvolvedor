@@ -57,14 +57,17 @@ namespace AvaliacaoDesenvolvedor.Controllers
                             p.Fornecedor = auxiliar[5];
                             p.Total = p.Quantidade * p.PrecoUnitario;
                             //Adiciono o objeto a lista
-                            lista.Add(p);
+
                             db.Pedido.Add(p);
                             db.SaveChanges();
-                           
+                            lista.Add(p);
+
                         }
 
 
                     }
+
+                    TempData["SM"] = "Dados salvo com sucesso";
                     return View("ListaDeUpload", lista);
 
 
@@ -80,18 +83,8 @@ namespace AvaliacaoDesenvolvedor.Controllers
                 return View();
             }
         }
-        public ActionResult SalvaNoBanco()
-        {
-
-
-
-            return View("ListasDeUploads");
-
-        }
-
-
 
     }
-        
 
-    }
+
+}
